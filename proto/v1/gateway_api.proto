@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package com.affinity.gateway.proto.v1;
+
+option go_package = "v1;protov1";
+option java_multiple_files = true;
+option java_outer_classname = "GatewayProto";
+option java_package = "com.affinity.gateway.proto.v1";
+option csharp_namespace = "Affinity.Gateway.Proto.V1";
+option php_namespace = "Affinity\\Gateway\\Proto\\V1";
+option ruby_package = "affinity.gateway.proto.v1";
+
+import "google/protobuf/empty.proto";
+import "third_party/google/api/annotations.proto";
+
+// Affinity Gateway RPC interface.
+service GatewayAPI {
+  // Reachability test.
+  rpc Ping (google.protobuf.Empty) returns (PingResponse) {
+    option (google.api.http) = {
+      get: "/v1/api/ping"
+    };
+  }
+}
+
+// Sample reachability response.
+message PingResponse {
+  bool ok = 1;
+}

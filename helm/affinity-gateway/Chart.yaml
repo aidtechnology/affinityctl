@@ -1,0 +1,17 @@
+apiVersion: v2
+name: affinity-gateway
+description: Sample RPC service for testing purposes.
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+home: https://github.com/aidtechnology/affinityctl
+icon: https://raw.githubusercontent.com/aidtechnology/affinityctl/master/helm/affinity-gateway/icon.png
+sources:
+  - https://github.com/aidtechnology/affinityctl
+keywords:
+  - project
+  - example
+maintainers:
+  - name: Ben Cessa
+    email: ben@aid.technology
+    url: https://github.com/bcessa
