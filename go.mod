@@ -7,6 +7,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.14.8
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.7.1
+	github.com/stretchr/testify v1.6.1
 	go.bryk.io/x v0.0.0-20200917170803-d4792ef6c59f
 	google.golang.org/genproto v0.0.0-20200911024640-645f7a48b24f
 	google.golang.org/grpc v1.31.1
