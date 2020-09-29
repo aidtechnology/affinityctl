@@ -114,17 +114,17 @@ func (i *SDK) request(method, endpoint string, data interface{}, pl map[string]i
 	defer func() {
 		_ = res.Body.Close()
 	}()
-	if res.StatusCode != http.StatusOK {
+	if res.StatusCode >= 400 {
 		return errors.New("internal server error")
+	}
+	if pl == nil {
+		return nil
 	}
 
 	// Get response contents and decode expected payload
 	content, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return err
-	}
-	if pl == nil {
-		return nil
 	}
 	return json.Unmarshal(content, &pl)
 }

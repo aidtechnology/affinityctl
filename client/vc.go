@@ -35,7 +35,8 @@ func (m *vcService) Issue(iss *Issuer, did string, payload interface{}) ([]byte,
 // Verify the validity of an existing credential.
 func (m *vcService) Verify(credential interface{}) (bool, error) {
 	req := map[string]interface{}{
-		"credentials": credential,
+		"credentials": []interface{}{credential},
+		"options":     map[string]string{},
 	}
 	pl := map[string]interface{}{
 		"isOk": false,
@@ -48,7 +49,7 @@ func (m *vcService) Verify(credential interface{}) (bool, error) {
 }
 
 // Store a new verifiable credential on the user's wallet.
-func (m *vcService) Store(did, material string, vc interface{}) (string, error) {
+func (m *vcService) Store(did string, material string, vc interface{}) error {
 	req := map[string]interface{}{
 		"did":      did,
 		"material": material,
@@ -57,9 +58,5 @@ func (m *vcService) Store(did, material string, vc interface{}) (string, error) 
 	pl := map[string]interface{}{
 		"storedVcReference": false,
 	}
-	err := m.sdk.request("POST", "/vc/store", req, pl)
-	if err != nil {
-		return "", err
-	}
-	return pl["storedVcReference"].(string), nil
+	return m.sdk.request("POST", "/vc/store", req, pl)
 }

@@ -1,0 +1,49 @@
+{
+  "@type": "Coverage",
+  "resourceType": "Coverage",
+  "identifier": [
+    {
+      "id": "ABCD123"
+    }
+  ],
+  "status": "Active",
+  "type": {
+    "valueCodeableConcept": {
+      "text": "Life Insurance"
+    }
+  },
+  "policyHolder": {
+    "resourceType": "Person",
+    "name": [
+      {
+        "text": "John Smith"
+      }
+    ],
+    "gender": "male",
+    "birthDate": "12/12/1985"
+  },
+  "beneficiary": {
+    "resourceType": "Person",
+    "name": [
+      {
+        "text": "John Smith"
+      }
+    ],
+    "gender": "male",
+    "birthDate": "12/12/1985"
+  },
+  "period": {
+    "start": "01/01/2020",
+    "end": "31/12/2020"
+  },
+  "payor": [
+    {
+      "reference": "John Smith"
+    }
+  ],
+  "class": [
+    {
+      "name": "Life insurance plan with maximum benefits"
+    }
+  ]
+}

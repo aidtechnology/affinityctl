@@ -1,0 +1,109 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    {
+      "InsuranceAccountCredentialPersonV1": {
+        "@context": {
+          "@protected": true,
+          "@version": 1.1
+        },
+        "@id": "https://schema.affinity-project.org/InsuranceAccountCredentialPersonV1"
+      },
+      "data": {
+        "@context": [
+          null,
+          {
+            "@protected": true,
+            "@version": 1.1,
+            "@vocab": "http://hl7.org/fhir/",
+            "Coverage": {
+              "@context": {
+                "@protected": true,
+                "@version": 1.1,
+                "@vocab": "http://hl7.org/fhir/"
+              },
+              "@id": "http://hl7.org/fhir/Coverage"
+            },
+            "Patient": {
+              "@context": {
+                "@protected": true,
+                "@version": 1.1,
+                "@vocab": "http://hl7.org/fhir/"
+              },
+              "@id": "http://hl7.org/fhir/Patient"
+            }
+          }
+        ],
+        "@id": "https://schema.affinity-project.org/data"
+      }
+    }
+  ],
+  "credentialSubject": {
+    "data": {
+      "@type": "Coverage",
+      "beneficiary": {
+        "birthDate": "12/12/1985",
+        "gender": "male",
+        "name": [
+          {
+            "text": "John Smith"
+          }
+        ],
+        "resourceType": "Person"
+      },
+      "class": [
+        {
+          "name": "Life insurance plan with maximum benefits"
+        }
+      ],
+      "identifier": [
+        {
+          "id": "ABCD123"
+        }
+      ],
+      "payor": [
+        {
+          "reference": "John Smith"
+        }
+      ],
+      "period": {
+        "end": "31/12/2020",
+        "start": "01/01/2020"
+      },
+      "policyHolder": {
+        "birthDate": "12/12/1985",
+        "gender": "male",
+        "name": [
+          {
+            "text": "John Smith"
+          }
+        ],
+        "resourceType": "Person"
+      },
+      "resourceType": "Coverage",
+      "status": "Active",
+      "type": {
+        "valueCodeableConcept": {
+          "text": "Life Insurance"
+        }
+      }
+    }
+  },
+  "holder": {
+    "id": "did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw"
+  },
+  "id": "claimId:4c20895265ab96d0",
+  "issuanceDate": "2020-09-29T12:06:47.292Z",
+  "issuer": "did:elem:EiDDxkcB1XV4w_NvZrw3E2E6-5YmQGNE3_bddxP88QavWg;elem:initial-state=eyJwcm90ZWN0ZWQiOiJleUp2Y0dWeVlYUnBiMjRpT2lKamNtVmhkR1VpTENKcmFXUWlPaUlqY0hKcGJXRnllU0lzSW1Gc1p5STZJa1ZUTWpVMlN5SjkiLCJwYXlsb2FkIjoiZXlKQVkyOXVkR1Y0ZENJNkltaDBkSEJ6T2k4dmR6TnBaQzV2Y21jdmMyVmpkWEpwZEhrdmRqSWlMQ0p3ZFdKc2FXTkxaWGtpT2x0N0ltbGtJam9pSTNCeWFXMWhjbmtpTENKMWMyRm5aU0k2SW5OcFoyNXBibWNpTENKMGVYQmxJam9pVTJWamNESTFObXN4Vm1WeWFXWnBZMkYwYVc5dVMyVjVNakF4T0NJc0luQjFZbXhwWTB0bGVVaGxlQ0k2SWpBellqUTVOMk0zT0dJeU0ySTFNelUwWTJWbE0yUXdNelkwTlRFd05EUXpaakEyTnpKalpqZzNNbVl6TVRaa05EUm1Oelk1Wmpaa00yVXpNR05sWWpObU5pSjlMSHNpYVdRaU9pSWpjbVZqYjNabGNua2lMQ0oxYzJGblpTSTZJbkpsWTI5MlpYSjVJaXdpZEhsd1pTSTZJbE5sWTNBeU5UWnJNVlpsY21sbWFXTmhkR2x2Ymt0bGVUSXdNVGdpTENKd2RXSnNhV05MWlhsSVpYZ2lPaUl3TWpZMFlUTTNZalZsTVRRd1pUUmtabVF4Wm1Ga05ESXhZekptWldGbE1qVTRaVGxoTVdSbFpEVTVZV1psTnpreE16VmtPVEV3WkRKalpUbGtabUZqTURZaWZWMHNJbUYxZEdobGJuUnBZMkYwYVc5dUlqcGJJaU53Y21sdFlYSjVJbDBzSW1GemMyVnlkR2x2YmsxbGRHaHZaQ0k2V3lJamNISnBiV0Z5ZVNKZGZRIiwic2lnbmF0dXJlIjoiejIxbC1qb3ljRU9ZTUsyVVUyQ3FFckxIZWdhbnRpOHBYams0bXJySEk3bFktOV9RXzZkSkkzeXlqZmNHeEd1NW5CX0NLRVRsQy1GVU1xekhVdWQ4VGcifQ",
+  "proof": {
+    "created": "2020-09-29T12:06:47Z",
+    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdfQ..lAcaeDru1guSQZXU0E8gTdYP9891gzyrDBDM8iA7qqY1T56ToBZQAJyUrzoA2BDJ8dmcLwBfrXXj0LKOoW3IjQ",
+    "proofPurpose": "assertionMethod",
+    "type": "EcdsaSecp256k1Signature2019",
+    "verificationMethod": "did:elem:EiDDxkcB1XV4w_NvZrw3E2E6-5YmQGNE3_bddxP88QavWg#primary"
+  },
+  "type": [
+    "VerifiableCredential",
+    "InsuranceAccountCoverageV1"
+  ]
+}

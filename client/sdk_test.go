@@ -1,6 +1,8 @@
 package client
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"testing"
 
 	tdd "github.com/stretchr/testify/assert"
@@ -44,41 +46,43 @@ func TestSDK(t *testing.T) {
 	})
 
 	t.Run("VC", func(t *testing.T) {
+		// Sample issuer
+		issuer := &Issuer{
+			DID: "did:elem:EiDDxkcB1XV4w_NvZrw3E2E6-5YmQGNE3_bddxP88QavWg",
+			PIN: "OX3POH",
+		}
+
 		t.Run("Issue", func(t *testing.T) {
-			sampleDID := "did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw"
-			iss := &Issuer{
-				DID: sampleDID,
-				PIN: "S134RV",
-			}
-			payload := map[string]interface{}{
-				"resourceType": "string",
-			}
-			vc, err := cl.VC.Issue(iss, sampleDID, payload)
+			// Get sample credential payload
+			credentialPayload, _ := ioutil.ReadFile("testdata/payload.json")
+			payload := make(map[string]interface{})
+			_ = json.Unmarshal(credentialPayload, &payload)
+
+			subject := "did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw"
+			vc, err := cl.VC.Issue(issuer, subject, payload)
 			assert.Nil(err, "issue")
 			t.Logf("%s", vc)
 		})
 
 		t.Run("Verify", func(t *testing.T) {
-			cred := map[string]interface{}{
-				"exitingVC": "sample-structure",
-				"foo":       "bar",
-				"baz":       true,
-				"numeric":   10,
-			}
-			res, err := cl.VC.Verify(cred)
+			// Load sample VC
+			vc := make(map[string]interface{})
+			data, _ := ioutil.ReadFile("testdata/vc.json")
+			_ = json.Unmarshal(data, &vc)
+
+			res, err := cl.VC.Verify(vc)
 			assert.Nil(err, "verify")
-			assert.False(res, "invalid credential")
+			assert.True(res, "invalid credential")
 		})
 
 		t.Run("Store", func(t *testing.T) {
+			// Load sample VC
+			vc := make(map[string]interface{})
+			data, _ := ioutil.ReadFile("testdata/vc.json")
+			_ = json.Unmarshal(data, &vc)
+
 			sampleDID := "did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw"
-			cred := map[string]interface{}{
-				"exitingVC": "sample-structure",
-				"foo":       "bar",
-				"baz":       true,
-				"numeric":   10,
-			}
-			_, err := cl.VC.Store(sampleDID, "S134RV", cred)
+			err := cl.VC.Store(sampleDID, "S134RV", vc)
 			assert.Nil(err, "store failed")
 		})
 	})
