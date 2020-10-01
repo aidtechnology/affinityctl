@@ -18,11 +18,11 @@ import (
 
 var helper *loader.Helper
 
-var serverCmd = &cobra.Command{
-	Use:     "server",
+var gatewayCmd = &cobra.Command{
+	Use:     "gateway",
 	Short:   "Start a gateway instance",
-	Aliases: []string{"gateway", "gw", "node"},
-	RunE:    runServer,
+	Aliases: []string{"server", "gw", "node"},
+	RunE:    runGateway,
 }
 
 func init() {
@@ -31,13 +31,13 @@ func init() {
 		loader.SegmentObservability,
 	}
 	helper = loader.New()
-	if err := cli.SetupCommandParams(serverCmd, helper.Params(segments...)); err != nil {
+	if err := cli.SetupCommandParams(gatewayCmd, helper.Params(segments...)); err != nil {
 		panic(err)
 	}
-	rootCmd.AddCommand(serverCmd)
+	rootCmd.AddCommand(gatewayCmd)
 }
 
-func runServer(cmd *cobra.Command, args []string) error {
+func runGateway(_ *cobra.Command, _ []string) error {
 	// Load configuration settings.
 	// Manually set some default values.
 	viper.Set("rpc.network_interface", rpc.NetworkInterfaceAll)

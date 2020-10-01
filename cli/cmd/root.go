@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
+	hd "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -42,6 +44,18 @@ func initConfig() {
 	viper.SetEnvPrefix(appIdentifier)
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
+
+	// Set default values
+	defaultHome := fmt.Sprintf("$HOME/.%s", appIdentifier)
+	if home, err := hd.Dir(); err == nil {
+		defaultHome = filepath.Join(home, fmt.Sprintf(".%s", appIdentifier))
+		if !dirExist(defaultHome) {
+			if err := os.Mkdir(defaultHome, 0700); err != nil {
+				panic(fmt.Errorf("failed to create new home directory: %s", err))
+			}
+		}
+	}
+	viper.SetDefault("client.home", defaultHome)
 
 	// Configuration file
 	viper.AddConfigPath(fmt.Sprintf("/etc/%s", appIdentifier))

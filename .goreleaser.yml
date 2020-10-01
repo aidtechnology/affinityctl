@@ -74,7 +74,7 @@ brews:
     skip_upload: true
     # TAP repository
     tap:
-      owner: bryk-io
+      owner: aidtechnology
       name: homebrew-tap
     # Use 'github-actions' as commit author
     # https://github.community/t/github-actions-bot-email-address/17204
@@ -83,7 +83,7 @@ brews:
       email: 41898282+github-actions[bot]@users.noreply.github.com
     homepage: 'https://github.com/aidtechnology/affinityctl'
     description: |
-      Add a brief but descriptive paragraph about the application.
+      Affinity gateway integration tool.
     install: |
       bin.install "affinityctl"
       output = Utils.popen_read("#{bin}/affinityctl completion bash")
