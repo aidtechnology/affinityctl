@@ -1,15 +1,18 @@
 {
   "name": "affinity-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Affinity gateway client library",
   "main": "index.js",
   "author": "AID:Tech",
   "license": "BSD-3",
   "scripts": {
-    "build": "npx browserify index.js --standalone affinity > dist.js"
+    "build": "browserify index.js -p [ tsify --noImplicitAny ] --standalone affinity > dist.js"
   },
   "dependencies": {
-    "component-ajax": "0.0.2"
+    "axios": "^0.20.0",
+    "component-ajax": "0.0.2",
+    "tsify": "^5.0.2",
+    "typescript": "^4.0.3"
   },
   "devDependencies": {
     "browserify": "^16.5.2"
