@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
-    "component-ajax": "0.0.2",
     "tsify": "^5.0.2",
     "typescript": "^4.0.3"
   },
