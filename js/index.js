@@ -1,29 +1,29 @@
-let ajax = require('component-ajax');
+const axios = require("axios");
 
 // API endpoint. Hardcoded to staging server for now.
 const endpoint = "https://caregiver-gateway.staging.affinity-project.org/api";
 
 // Utility function to execute XMLHttpRequest using a
 // promise wrapper.
-function req(method, url, data) {
-  return new Promise((resolve, reject) => {
-    ajax({
-      type: method,
+async function req(method, url, data) {
+  try {
+    const response = await axios({
+      method,
       url: endpoint + url,
-      contentType: "application/json",
-      dataType: "json",
-      data: JSON.stringify(data),
-      success: function (response) {
-        resolve(response);
+      data,
+      responseType: "json",
+      headers: {
+        "Content-Type": "application/json",
       },
-      error: function (status, error) {
-        reject({
-          status: status,
-          error: error
-        });
-      }
     });
-  })
+
+    return response.data;
+  } catch (error) {
+    return {
+      status: error.response.status,
+      error: error.message,
+    };
+  }
 }
 
 // Affinity SDK client.
@@ -39,8 +39,8 @@ let affinity = {
   CreateDID: function (pin, email) {
     let data = {
       material: pin,
-      branchManagerEmail: email
-    }
+      branchManagerEmail: email,
+    };
     return req("POST", "/did/material", data);
   },
 
@@ -48,8 +48,8 @@ let affinity = {
   // provided DID, if available.
   Resolve: function (did) {
     let data = {
-      did: did
-    }
+      did: did,
+    };
     return req("PUT", "/did/resolve", data);
   },
 
@@ -58,8 +58,8 @@ let affinity = {
   Authenticate: function (did, pin) {
     let data = {
       did: did,
-      material: pin
-    }
+      material: pin,
+    };
     return req("PUT", "/authentications", data);
   },
 
@@ -83,7 +83,7 @@ let affinity = {
       did: subject,
       issuerDid: issuer.did,
       issuerPin: issuer.pin,
-      payload: payload
+      payload: payload,
     };
     return req("POST", "/vc/issue", data);
   },
@@ -92,8 +92,8 @@ let affinity = {
   VerifyVC: function (vc) {
     let data = {
       credentials: [vc],
-      options: {}
-    }
+      options: {},
+    };
     return req("PUT", "/vc/verify", data);
   },
 
@@ -101,14 +101,14 @@ let affinity = {
   // - Subject is the user's DID
   // - PIN is the active authentication material
   // - VC is the credential to store
-  StoreVC: function(subject, pin, vc) {
+  StoreVC: function (subject, pin, vc) {
     let data = {
       did: subject,
       material: pin,
-      vc: vc
-    }
+      vc: vc,
+    };
     return req("POST", "/vc/store", data);
-  }
+  },
 };
 
 module.exports = affinity;
