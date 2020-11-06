@@ -8,6 +8,8 @@ import (
 	tdd "github.com/stretchr/testify/assert"
 )
 
+var sampleDID = "did:elem:EiDotMNs0iqUqmrWZ7zq0sSyhl1WLRCkr-BTa6RQ59887Q"
+
 func TestSDK(t *testing.T) {
 	assert := tdd.New(t)
 	cl, err := New(nil)
@@ -24,6 +26,7 @@ func TestSDK(t *testing.T) {
 			did, err := cl.DID.Create("S134RV", "sample@aid.technolgy")
 			assert.Nil(err, "create")
 			t.Log(did)
+			sampleDID = did
 		})
 
 		t.Run("Resolve", func(t *testing.T) {
@@ -33,14 +36,14 @@ func TestSDK(t *testing.T) {
 		})
 
 		t.Run("Authenticate", func(t *testing.T) {
-			isAuth, vcs, err := cl.DID.Authenticate("did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw", "S134RV")
+			isAuth, vcs, err := cl.DID.Authenticate(sampleDID, "S134RV")
 			assert.Nil(err, "authenticate")
 			assert.True(isAuth, "authenticate")
 			t.Logf("%s", vcs)
 		})
 
 		t.Run("ResetMaterial", func(t *testing.T) {
-			err := cl.DID.ResetMaterial("did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw", "S134RV")
+			err := cl.DID.ResetMaterial(sampleDID, "S134RV")
 			assert.NotNil(err, "reset material")
 		})
 	})
@@ -58,8 +61,7 @@ func TestSDK(t *testing.T) {
 			payload := make(map[string]interface{})
 			_ = json.Unmarshal(credentialPayload, &payload)
 
-			subject := "did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw"
-			vc, err := cl.VC.Issue(issuer, subject, payload)
+			vc, err := cl.VC.Issue(issuer, sampleDID, payload)
 			assert.Nil(err, "issue")
 			t.Logf("%s", vc)
 		})
@@ -81,7 +83,6 @@ func TestSDK(t *testing.T) {
 			data, _ := ioutil.ReadFile("testdata/vc.json")
 			_ = json.Unmarshal(data, &vc)
 
-			sampleDID := "did:elem:EiCIbjMlHw5aGdGCMJ21OqDyxAvOcE2r2xrunazFE037dw"
 			err := cl.VC.Store(sampleDID, "S134RV", vc)
 			assert.Nil(err, "store failed")
 		})
