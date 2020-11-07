@@ -51,8 +51,8 @@ func TestSDK(t *testing.T) {
 	t.Run("VC", func(t *testing.T) {
 		// Sample issuer
 		issuer := &Issuer{
-			DID: "did:elem:EiDDxkcB1XV4w_NvZrw3E2E6-5YmQGNE3_bddxP88QavWg",
-			PIN: "OX3POH",
+			DID: sampleDID, // "did:elem:EiDDxkcB1XV4w_NvZrw3E2E6-5YmQGNE3_bddxP88QavWg",
+			PIN: "S134RV",  // "OX3POH",
 		}
 
 		t.Run("Issue", func(t *testing.T) {
