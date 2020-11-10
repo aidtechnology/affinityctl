@@ -43,8 +43,8 @@ func TestSDK(t *testing.T) {
 		})
 
 		t.Run("ResetMaterial", func(t *testing.T) {
-			err := cl.DID.ResetMaterial(sampleDID, "S134RV")
-			assert.NotNil(err, "reset material")
+			err := cl.DID.ResetMaterial(sampleDID)
+			assert.Nil(err, "reset material")
 		})
 	})
 

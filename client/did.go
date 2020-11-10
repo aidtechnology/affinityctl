@@ -2,7 +2,6 @@ package client
 
 import (
 	"encoding/json"
-	"errors"
 )
 
 type didService struct {
@@ -74,28 +73,22 @@ func (m *didService) Authenticate(did, material string) (bool, []byte, error) {
 	return isAuth, vcs, nil
 }
 
-// ResetMaterial allows a user to remove the current PIN associated with
-// a given identifier.
-func (m *didService) ResetMaterial(did, material string) error {
-	return errors.New("not yet implemented")
-	// // Get confirmation code
-	// r1 := map[string]string{
-	// 	"did": did,
-	// }
-	// p1 := map[string]interface{}{
-	// 	"confirmation": "",
-	// }
-	// err := m.sdk.request("POST", "/material/userMaterialReset", r1, p1)
-	// if err != nil {
-	// 	return err
-	// }
-	//
-	// // Send confirmation code
-	// r2 := map[string]string{
-	// 	"did": did,
-	// 	"material": material,
-	// 	"confirmation": p1["confirmation"].(string),
-	// }
-	// p2 := make(map[string]interface{})
-	// return m.sdk.request("POST", "/material/userMaterialResetConfirm", r2, p2)
+// ResetMaterial allows a user to request a reset of the PIN associated with
+// a given identifier. The request is send and handled by the branch manager.
+func (m *didService) ResetMaterial(did string) error {
+	// Get confirmation code
+	r1 := map[string]string{
+		"did": did,
+	}
+	return m.sdk.request("POST", "/material/userMaterialReset", r1, nil)
+}
+
+// ConfirmResetMaterial submit a reset PIN confirmation code.
+func (m *didService) ConfirmResetMaterial(did, material, confirmation string) error {
+	req := map[string]string{
+		"did":          did,
+		"material":     material,
+		"confirmation": confirmation,
+	}
+	return m.sdk.request("POST", "/material/userMaterialResetConfirm", req, nil)
 }
