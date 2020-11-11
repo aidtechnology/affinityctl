@@ -105,3 +105,9 @@ func list() []*entry {
 	})
 	return list
 }
+
+func sdkClient() (*client.SDK, error) {
+	opts := client.DefaultOptions()
+	opts.Key = viper.GetString("client.key")
+	return client.New(opts)
+}

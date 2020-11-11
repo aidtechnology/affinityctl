@@ -63,7 +63,7 @@ var vcIssueCmd = &cobra.Command{
 		}
 
 		// Get SDK client
-		sdk, err := client.New(nil)
+		sdk, err := sdkClient()
 		if err != nil {
 			return err
 		}

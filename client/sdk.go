@@ -15,10 +15,12 @@ const stagingServer = "https://caregiver-gateway.staging.affinity-project.org/ap
 
 // SDK provides a simple interface to access all the functionality
 // provided by the Affinity gateway service.
+// https://caregiver-gateway.dev.affinity-project.org/api-docs/
 type SDK struct {
 	c           *http.Client
 	userAgent   string
 	apiEndpoint string
+	apiKey      string
 
 	// Service handlers
 	DID *didService
@@ -38,10 +40,14 @@ type Options struct {
 
 	// User agent value to report to the service
 	UserAgent string
+
+	// API Key required to access the service. You can enroll
+	// https://affinity-onboarding-frontend.dev.affinity-project.org/
+	Key string
 }
 
-// Return sane default configuration values
-func defaultOptions() *Options {
+// DefaultOptions return sane default configuration values
+func DefaultOptions() *Options {
 	return &Options{
 		Timeout:        30,
 		KeepAlive:      600,
@@ -56,7 +62,7 @@ func defaultOptions() *Options {
 func New(opts *Options) (*SDK, error) {
 	// Default settings
 	if opts == nil {
-		opts = defaultOptions()
+		opts = DefaultOptions()
 	}
 
 	// Configure base HTTP transport
@@ -80,6 +86,7 @@ func New(opts *Options) (*SDK, error) {
 
 	// Set client endpoint and services
 	client.apiEndpoint = stagingServer
+	client.apiKey = opts.Key
 	client.DID = &didService{sdk: client}
 	client.VC = &vcService{sdk: client}
 	return client, nil
@@ -102,6 +109,9 @@ func (i *SDK) request(method, endpoint string, data interface{}, pl map[string]i
 	req.Header.Add("Content-Type", "application/json")
 	if i.userAgent != "" {
 		req.Header.Add("User-Agent", i.userAgent)
+	}
+	if i.apiKey != "" {
+		req.Header.Add("Api-Key", i.apiKey)
 	}
 
 	// Execute request

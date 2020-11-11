@@ -10,8 +10,14 @@ import (
 
 var sampleDID = "did:elem:EiDotMNs0iqUqmrWZ7zq0sSyhl1WLRCkr-BTa6RQ59887Q"
 
+// var sampleAPIKey = "95273b4f-dd15-4eea-8e0e-0de5eb2d80e0"
+// var sampleAPIKeyUser = "aidtechnology"
+var sampleAPIKeyHash = "e838f9d866ebc239500920054acf5d34688e3af956726ade9a32ef5343020bc9"
+
 func TestSDK(t *testing.T) {
 	assert := tdd.New(t)
+	opts := DefaultOptions()
+	opts.Key = sampleAPIKeyHash
 	cl, err := New(nil)
 	assert.Nil(err, "new client")
 

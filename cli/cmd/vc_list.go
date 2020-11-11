@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aidtechnology/affinityctl/client"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"go.bryk.io/x/cli"
@@ -32,7 +31,7 @@ var vcListCmd = &cobra.Command{
 		}
 
 		// Get SDK client
-		sdk, err := client.New(nil)
+		sdk, err := sdkClient()
 		if err != nil {
 			return err
 		}

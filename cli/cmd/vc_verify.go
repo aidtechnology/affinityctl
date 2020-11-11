@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/aidtechnology/affinityctl/client"
 	"github.com/spf13/cobra"
 	"go.bryk.io/x/cli"
 )
@@ -37,7 +36,7 @@ var vcVerifyCmd = &cobra.Command{
 		}
 
 		// Get SDK client
-		sdk, err := client.New(nil)
+		sdk, err := sdkClient()
 		if err != nil {
 			return err
 		}
