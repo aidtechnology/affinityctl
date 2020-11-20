@@ -10,15 +10,19 @@ import (
 
 var sampleDID = "did:elem:EiDotMNs0iqUqmrWZ7zq0sSyhl1WLRCkr-BTa6RQ59887Q"
 
-// var sampleAPIKey = "95273b4f-dd15-4eea-8e0e-0de5eb2d80e0"
-// var sampleAPIKeyUser = "aidtechnology"
-var sampleAPIKeyHash = "e838f9d866ebc239500920054acf5d34688e3af956726ade9a32ef5343020bc9"
+// https://affinity-onboarding-frontend.dev.affinity-project.org
+// https://affinity-onboarding-frontend.staging.affinity-project.org
+// var sampleAPIKey = "e7bc7b94-eff7-4a92-80c9-3d74d1059797"
+// var sampleAPIKeyUser = "sample-aidtechnology"
+var sampleAPIKeyHash = "1696b306ea8e114b8042ba71ef810c6ae811430c33abe43355a4712c46fcc95f"
 
 func TestSDK(t *testing.T) {
 	assert := tdd.New(t)
 	opts := DefaultOptions()
 	opts.Key = sampleAPIKeyHash
-	cl, err := New(nil)
+	opts.Debug = true
+	opts.Environment = "staging"
+	cl, err := New(opts)
 	assert.Nil(err, "new client")
 
 	t.Run("DID", func(t *testing.T) {

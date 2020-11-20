@@ -109,5 +109,7 @@ func list() []*entry {
 func sdkClient() (*client.SDK, error) {
 	opts := client.DefaultOptions()
 	opts.Key = viper.GetString("client.key")
+	opts.Debug = viper.GetBool("client.debug")
+	opts.Environment = viper.GetString("client.env")
 	return client.New(opts)
 }

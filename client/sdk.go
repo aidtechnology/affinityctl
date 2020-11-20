@@ -8,10 +8,15 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"net/http/httputil"
 	"time"
 )
 
-const stagingServer = "https://caregiver-gateway.staging.affinity-project.org/api"
+const (
+	devServer        = "https://caregiver-gateway.dev.affinity-project.org/api"
+	stagingServer    = "https://caregiver-gateway.staging.affinity-project.org/api"
+	productionServer = "https://caregiver-gateway.production.affinity-project.org/api"
+)
 
 // SDK provides a simple interface to access all the functionality
 // provided by the Affinity gateway service.
@@ -21,6 +26,7 @@ type SDK struct {
 	userAgent   string
 	apiEndpoint string
 	apiKey      string
+	debug       bool
 
 	// Service handlers
 	DID *didService
@@ -44,6 +50,12 @@ type Options struct {
 	// API Key required to access the service. You can enroll
 	// https://affinity-onboarding-frontend.dev.affinity-project.org/
 	Key string
+
+	// Dump HTTP requests and responses, useful when debugging and testing.
+	Debug bool
+
+	// API endpoint to use, one of: dev, staging, prod
+	Environment string
 }
 
 // DefaultOptions return sane default configuration values
@@ -53,6 +65,7 @@ func DefaultOptions() *Options {
 		KeepAlive:      600,
 		MaxConnections: 100,
 		UserAgent:      "affinityctl/0.1.0",
+		Environment:    "dev",
 	}
 }
 
@@ -85,8 +98,9 @@ func New(opts *Options) (*SDK, error) {
 	}
 
 	// Set client endpoint and services
-	client.apiEndpoint = stagingServer
+	client.apiEndpoint = getEndpoint(opts.Environment)
 	client.apiKey = opts.Key
+	client.debug = opts.Debug
 	client.DID = &didService{sdk: client}
 	client.VC = &vcService{sdk: client}
 	return client, nil
@@ -114,6 +128,11 @@ func (i *SDK) request(method, endpoint string, data interface{}, pl map[string]i
 		req.Header.Add("Api-Key", i.apiKey)
 	}
 
+	if i.debug {
+		dr, _ := httputil.DumpRequest(req, true)
+		fmt.Printf("%s", dr)
+	}
+
 	// Execute request
 	res, err := i.c.Do(req)
 	if err != nil {
@@ -125,6 +144,10 @@ func (i *SDK) request(method, endpoint string, data interface{}, pl map[string]i
 		_ = res.Body.Close()
 	}()
 	if res.StatusCode >= 400 {
+		if i.debug {
+			drr, _ := httputil.DumpResponse(res, true)
+			fmt.Printf("%s", drr)
+		}
 		return errors.New("internal server error")
 	}
 	if pl == nil {
@@ -137,4 +160,15 @@ func (i *SDK) request(method, endpoint string, data interface{}, pl map[string]i
 		return err
 	}
 	return json.Unmarshal(content, &pl)
+}
+
+func getEndpoint(env string) string {
+	switch env {
+	case "staging":
+		return stagingServer
+	case "prod":
+		return productionServer
+	default:
+		return devServer
+	}
 }

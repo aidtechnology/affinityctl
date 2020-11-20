@@ -2,5 +2,7 @@ issuer:
   did: "did:elem:EiDDxkcB1XV4w_NvZrw3E2E6-5YmQGNE3_bddxP88QavWg"
   pin: "OX3POH"
 client:
-  home: /etc/affinityctl
-  key: e838f9d866ebc239500920054acf5d34688e3af956726ade9a32ef5343020bc9
+  home: "/etc/affinityctl"
+  key: "e838f9d866ebc239500920054acf5d34688e3af956726ade9a32ef5343020bc9"
+  debug: true
+  env: staging
