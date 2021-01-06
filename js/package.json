@@ -9,7 +9,7 @@
     "build": "browserify index.js -p [ tsify --noImplicitAny ] --standalone affinity > dist.js"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": ">=0.21.1",
     "component-ajax": "0.0.2",
     "tsify": "^5.0.2",
     "typescript": "^4.0.3"
